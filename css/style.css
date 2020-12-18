@@ -1,0 +1,134 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    list-style: none;
+    font-family: 'Lato', sans-serif;
+}
+
+#root {
+    width: 100%;
+    height: 100vh;
+}
+
+/* NAV */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    padding: 20px 50px;
+    background-color: #040404;
+}
+
+/* logo */
+
+nav img {
+    height: 100%;
+}
+
+/* /logo */
+
+/* searchbar */
+
+nav .searchbar input {
+    padding: 5px 10px;
+    margin-right: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+nav .searchbar i {
+    color: #fff;
+    cursor: pointer;
+}
+
+/* /searchbar */
+
+
+/* /NAV */
+
+/* MAIN */
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: calc(100% - 80px);
+    padding: 50px;
+    background-color: #191919;
+    overflow-y: auto;
+}
+
+/* cards */
+    
+.card {
+    position: relative;
+    width: 342px;
+    margin: 0 10px;
+    margin-bottom: 20px;
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+}
+
+.card .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 50px 25px;
+    color: #fff;
+    background-color: black;
+    overflow-y: hidden;
+    opacity: 0;
+}
+
+.card .overlay:after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:50px;
+    display:block;
+    background-color:inherit;
+  }
+
+.card .overlay .title {
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.card .overlay .description {
+    font-weight: 400;
+}
+
+.card .overlay .stars {
+    margin: 5px 0;
+}
+
+.card .overlay i {
+    color: orange;
+}
+
+.card:hover .overlay {
+    opacity: 1;
+}
+
+.warning h2 {
+    color: #fff;
+}
+
+/* /cards */
+
+/* /MAIN */
