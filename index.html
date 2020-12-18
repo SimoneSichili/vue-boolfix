@@ -54,6 +54,10 @@
                 </div>
             </div>
 
+            <div class="warning" v-if="movies.length == 0 && renderMessage == true">
+                <h2>Non è stato trovato alcun titolo con i criteri utilizzati</h2>
+            </div>
+
             <!-- /card film -->
             
         </main>

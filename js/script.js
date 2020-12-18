@@ -10,6 +10,7 @@ var app = new Vue(
         data: {
             searchQuery: "",
             movies: [],
+            renderMessage: false,
         },
         methods: {
             getImages: function(element) {
@@ -34,6 +35,8 @@ var app = new Vue(
                     // console.info("Array movies", this.movies);
 
                     this.searchQuery = "";
+
+                    this.renderMessage = true;
                 });
 
             },
