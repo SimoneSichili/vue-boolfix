@@ -23,7 +23,7 @@
         <nav>
             <img src="img/boolflix-logo.png" alt="Boolflix logo">
             <div class="searchbar">
-                <input type="text" placeholder="Ricerca un film" v-model="searchQuery" @keydown.enter="getMovies">
+                <input type="text" placeholder="Ricerca un film" autofocus v-model="searchQuery" @keydown.enter="getMovies">
                 <i class="fas fa-search" @click="getMovies"></i>
             </div>
         </nav>
