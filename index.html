@@ -21,44 +21,89 @@
     <div id="root">
         
         <nav>
-            <img src="img/boolflix-logo.png" alt="Boolflix logo">
+            <a href="javascript:history.go(0)"><img src="img/boolflix-logo.png" alt="Boolflix logo"></a> 
             <div class="searchbar">
-                <input type="text" placeholder="Ricerca un film" autofocus v-model="searchQuery" @keydown.enter="getMovies">
+                <input type="text" placeholder="Cerca un film" autofocus v-model="searchQuery" @keydown.enter="getMovies">
                 <i class="fas fa-search" @click="getMovies"></i>
             </div>
         </nav>
 
         <main>
 
-            <!-- card film -->
-            <div v-if="movies.length > 0" class="card" v-for="movie in movies">
-                <img 
-                :src="getImages(movie)" 
-                :alt="movie.title">
-                <div class="overlay">
-                    <div class="title">Titolo: <span class="description">{{ movie.title }}</span></div>
-                    <div v-if="movie.original_title != movie.title" class="title">Titolo Originale: <span class="description">{{ movie.original_title }}</span></div>
-                    <div class="title stars">
-                        Voto: 
-                        <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </span>
+            <h2 v-if="movies.length > 0" class="movies-title">Risultati della ricerca in Films</h2>
+            <!-- cards film -->
+            <div class="wrapper">
+                <div v-if="movies.length > 0" class="card" v-for="movie in movies">
+                    <img class="poster" :src="getImages(movie)" :alt="movie.title">
+                    <div class="overlay">
+                        <div class="title">Titolo: <span class="description">{{ movie.title }}</span></div>
+                        <div v-if="movie.original_title != movie.title" class="title">Titolo Originale: <span class="description">{{ movie.original_title }}</span></div>
+
+                        <!-- bandiere lingua -->
+                        <div class="title">Lingua Originale: 
+                            <span class="description">
+                                <img v-if="flags.includes(movie.original_language)" :src="getFlags(movie)" alt="Bandiera" class="flag">
+                                <span v-if="flags.includes(movie.original_language) == false" class="description">{{ movie.original_language}}</span>
+                            </span>
+                        </div>
+
+                        <!-- voto con stelle -->
+                        <div class="title stars">
+                            Voto: 
+                            <span>
+                                <i v-for="number in getVote(movie.vote_average)" class="fas fa-star"></i>
+                                <i v-for="number in 5 - getVote(movie.vote_average)" class="far fa-star"></i>
+                            </span>
+                        </div>
+                        <div class="title">Overview: 
+                            <span class="description overview">{{ movie.overview }}</span>
+                        </div>
                     </div>
-                    <div class="title">Overview: 
-                        <span class="description">{{ movie.overview }}</span>
+                </div>
+            </div>
+            <!-- /cards film -->
+
+
+            <!-- /cards serie tv -->
+
+            <h2 v-if="series.length > 0" class="series-title">Risultati della ricerca in Serie TV</h2>
+
+            <div class="wrapper">
+                <div v-if="series.length > 0" class="card" v-for="serie in series">
+                    <img class="poster" :src="getImages(serie)" :alt="serie.title">
+                    <div class="overlay">
+                        <div class="title">Titolo: <span class="description">{{ serie.title }}</span></div>
+                        <div v-if="serie.original_name != serie.name" class="title">Titolo Originale: <span class="description">{{ serie.original_title }}</span></div>
+
+                        <!-- bandiere lingua -->
+                        <div class="title">Lingua Originale: 
+                            <span class="description">
+                                <img v-if="flags.includes(serie.original_language)" :src="getFlags(serie)" alt="Bandiera" class="flag">
+                                <span v-if="flags.includes(serie.original_language) == false" class="description">{{ serie.original_language}}</span>
+                            </span>
+                        </div>
+
+                        <!-- voto con stelle -->
+                        <div class="title stars">
+                            Voto: 
+                            <span>
+                                <i v-for="number in getVote(serie.vote_average)" class="fas fa-star"></i>
+                                <i v-for="number in 5 - getVote(serie.vote_average)" class="far fa-star"></i>
+                            </span>
+                        </div>
+                        <div class="title">Overview: 
+                            <span class="description overview">{{ serie.overview }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="warning" v-if="movies.length == 0 && renderMessage == true">
+            <!-- /cards serie tv -->
+
+
+            <div class="warning" v-if="movies.length == 0 && series.length == 0 && renderMessage == true">
                 <h2>Non è stato trovato alcun titolo con i criteri utilizzati</h2>
             </div>
-
-            <!-- /card film -->
             
         </main>
         
