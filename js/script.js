@@ -49,6 +49,22 @@
 },
  */
 
+/* "cast": [
+    {
+        "adult": false,
+        "gender": 2,
+        "id": 521,
+        "known_for_department": "Acting",
+        "name": "Michael J. Fox",
+        "original_name": "Michael J. Fox",
+        "popularity": 5.2,
+        "profile_path": "/2JB4FMgQmnhbBlQ4SxWFN9EIVDi.jpg",
+        "cast_id": 14,
+        "character": "Marty McFly",
+        "credit_id": "52fe4218c3a36847f8003a13",
+        "order": 0
+    }, */
+
 
 
 var app = new Vue(
@@ -60,6 +76,7 @@ var app = new Vue(
             series: [],
             flags: ["it", "en", "es", "fr", "de", "ja", "zh"],
             genresMovies: [],
+            currentId: "",
             selected: "all",
             renderMessage: false,
         },
@@ -89,13 +106,35 @@ var app = new Vue(
                         language: "it-IT",
                     }
                 })
-                .then((element)=> {
+                .then((movie)=> {
 
-                    this.movies = element.data.results;
+                    this.movies = movie.data.results;
+
+                    for (let i = 0; i < this.movies.length; i++) {
+
+                        this.movies[i].castList = [];
+
+                        axios
+                        .get("https://api.themoviedb.org/3/movie/" + this.movies[i].id + "/credits", {
+                            params: {
+                                api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                                language: "it-IT",
+                            }
+                        })
+                        .then((element)=> {
+
+                            // console.log(element.data.cast.length);
+                            for(let j = 0; j < element.data.cast.length; j++) {
+                                if(this.movies[i].castList.length < 5) {
+                                    this.movies[i].castList.push(element.data.cast[j].name);
+                                }
+                            }
+                            
+                            this.$forceUpdate();
+                        });
+                    }
 
                 });
-
-
             },
             // funzione per prelevare la lista delle serie TV dall'API
             getSeries: function() {
@@ -108,9 +147,33 @@ var app = new Vue(
                         language: "it-IT",
                     }
                 })
-                .then((element)=> {
+                .then((serie)=> {
 
-                    this.series = element.data.results;
+                    this.series = serie.data.results;
+
+                    for (let i = 0; i < this.series.length; i++) {
+
+                        this.series[i].castList = [];
+
+                        axios
+                        .get("https://api.themoviedb.org/3/tv/" + this.series[i].id + "/credits", {
+                            params: {
+                                api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                                language: "it-IT",
+                            }
+                        })
+                        .then((element)=> {
+
+                            // console.log(element.data.cast.length);
+                            for(let j = 0; j < element.data.cast.length; j++) {
+                                if(this.series[i].castList.length < 5) {
+                                    this.series[i].castList.push(element.data.cast[j].name);
+                                }
+                            }
+                            
+                            this.$forceUpdate();
+                        });
+                    }
 
                 });
 

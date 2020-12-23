@@ -62,9 +62,16 @@
                                 <i v-for="number in 5 - getVote(movie.vote_average)" class="far fa-star"></i>
                             </span>
                         </div>
-                        <div class="title">Overview: 
-                            <span class="description overview">{{ movie.overview }}</span>
+
+                        <!-- attori -->
+                        <div v-if="movie.castList.length > 0" class="title">Attori: 
+                            <span class="description">{{ movie.castList.join(", ") }}</span>
                         </div>
+
+                        <!-- trama -->
+                        <div v-if="movie.overview != ''" class="title">Overview: 
+                            <span class="description overview">{{ movie.overview }}</span>
+                        </div>                     
                     </div>
                 </div>
             </div>
@@ -98,7 +105,14 @@
                                 <i v-for="number in 5 - getVote(serie.vote_average)" class="far fa-star"></i>
                             </span>
                         </div>
-                        <div class="title">Overview: 
+
+                        <!-- attori -->
+                        <div v-if="serie.castList.length > 0" class="title">Attori: 
+                            <span class="description">{{ serie.castList.join(", ") }}</span>
+                        </div>
+
+                        <!-- trama -->
+                        <div v-if="serie.overview != ''" class="title">Overview: 
                             <span class="description overview">{{ serie.overview }}</span>
                         </div>
                     </div>
