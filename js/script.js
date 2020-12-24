@@ -3,70 +3,6 @@
 // Sostituiamo quindi le nostre schede con quelle generate dalla chiamata,
 // tralasciando per ora le stelline.
 
-
-/* {
-    "adult": false,
-    "backdrop_path": "/fq3wyOs1RHyz2yfzsb4sck7aWRG.jpg",
-    "genre_ids": [
-        12,
-        35,
-        878,
-        10751
-    ],
-    "id": 105,
-    "original_language": "en",
-    "original_title": "Back to the Future",
-    "overview": "Marty McFly è stato catapultato per errore nel 1955, grazie alla macchina del tempo ideata dal suo amico scienziato Doc. Non avendo più \"carburante\" per poter tornare nel futuro si rivolge alla versione più giovane di Doc, che nonostante l'incredulità iniziale si farà in quattro per aiutarlo. Ma nel 1955 non è solo Doc ad essere più giovane, Marty infatti si imbatte casualmente nei suoi genitori, all'epoca teenager, ma l'incontro aggiungerà altri problemi.",
-    "popularity": 65.051,
-    "poster_path": "/AkmUoSHkxW9txpzZ52gCcWweEkE.jpg",
-    "release_date": "1985-07-03",
-    "title": "Ritorno al futuro",
-    "video": false,
-    "vote_average": 8.3,
-    "vote_count": 14236
-}, */
-
-
-/* {
-    "backdrop_path": "/cqkGeSKrX7hKGYdsr3qiq8THyDo.jpg",
-    "first_air_date": "2001-10-02",
-    "genre_ids": [
-        35,
-        18
-    ],
-    "id": 4556,
-    "name": "Scrubs",
-    "origin_country": [
-        "US"
-    ],
-    "original_language": "en",
-    "original_name": "Scrubs",
-    "overview": "In the unreal world of Sacred Heart Hospital, John \"J.D\" Dorian learns the ways of medicine, friendship and life.",
-    "popularity": 60.904,
-    "poster_path": "/u1z05trCA7AuSuDhi365grwdos1.jpg",
-    "vote_average": 7.9,
-    "vote_count": 873
-},
- */
-
-/* "cast": [
-    {
-        "adult": false,
-        "gender": 2,
-        "id": 521,
-        "known_for_department": "Acting",
-        "name": "Michael J. Fox",
-        "original_name": "Michael J. Fox",
-        "popularity": 5.2,
-        "profile_path": "/2JB4FMgQmnhbBlQ4SxWFN9EIVDi.jpg",
-        "cast_id": 14,
-        "character": "Marty McFly",
-        "credit_id": "52fe4218c3a36847f8003a13",
-        "order": 0
-    }, */
-
-
-
 var app = new Vue(
     {
         el: '#root',
@@ -74,10 +10,13 @@ var app = new Vue(
             searchQuery: "",
             movies: [],
             series: [],
-            flags: ["it", "en", "es", "fr", "de", "ja", "zh"],
+            popularMovies: [],
+            popularSeries: [],
+            flags: ["it", "en", "es", "fr", "de", "ja", "zh", "ko"],
             genresMovies: [],
-            currentId: "",
-            selected: "all",
+            genresSeries: [],
+            selectedMovieGenre: "selectedMovie",
+            selectedSerieGenre: "selectedSerie",
             renderMessage: false,
         },
         methods: {
@@ -98,6 +37,7 @@ var app = new Vue(
             // funzione per prelevare la lista dei film dall'API
             getMovies: function() {
 
+                //chiamata ajax API movie
                 axios
                 .get('https://api.themoviedb.org/3/search/movie', {
                     params: {
@@ -114,6 +54,7 @@ var app = new Vue(
 
                         this.movies[i].castList = [];
 
+                        //chiamata ajax API movie cast
                         axios
                         .get("https://api.themoviedb.org/3/movie/" + this.movies[i].id + "/credits", {
                             params: {
@@ -139,6 +80,7 @@ var app = new Vue(
             // funzione per prelevare la lista delle serie TV dall'API
             getSeries: function() {
 
+                //chiamata ajax API serie tv
                 axios
                 .get('https://api.themoviedb.org/3/search/tv', {
                     params: {
@@ -155,6 +97,7 @@ var app = new Vue(
 
                         this.series[i].castList = [];
 
+                        //chiamata ajax API serie tv cast
                         axios
                         .get("https://api.themoviedb.org/3/tv/" + this.series[i].id + "/credits", {
                             params: {
@@ -181,27 +124,128 @@ var app = new Vue(
               // funzione per effettuare la ricerca 
             getTitles: function() {
                 
-                this.getMovies();
-                this.getSeries();
+                if(this.searchQuery != "") {
+                    this.getMovies();
+                    this.getSeries();
+                    
+                    this.searchQuery = "";
+                    this.renderMessage = true;
+                }
                 
-                this.searchQuery = "";
-                this.renderMessage = true;
             },
         }, 
         mounted: function() {
 
+            // chiamata ajax film popolari
             axios
-                .get('https://api.themoviedb.org/3/genre/movie/list', {
-                    params: {
-                        api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
-                        language: "it-IT",
-                    }
-                })
-                .then((element)=> {
+            .get('https://api.themoviedb.org/3/movie/popular', {
+                params: {
+                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                    language: "it-IT",
+                }
+            })
+            .then((element)=> {
 
-                    this.genresMovies = element.data.genres;
+                for(let k = 0; k < 5; k++) {
+                    this.popularMovies.push(element.data.results[k])
+                }
+                
+                for (let i = 0; i < this.popularMovies.length; i++) {
 
-                });
+                    this.popularMovies[i].castList = [];
+
+                    //chiamata ajax API film popolari cast
+                    axios
+                    .get("https://api.themoviedb.org/3/movie/" + this.popularMovies[i].id + "/credits", {
+                        params: {
+                            api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                            language: "it-IT",
+                        }
+                    })
+                    .then((element)=> {
+
+                        // console.log(element.data.cast.length);
+                        for(let j = 0; j < element.data.cast.length; j++) {
+                            if(this.popularMovies[i].castList.length < 5) {
+                                this.popularMovies[i].castList.push(element.data.cast[j].name);
+                            }
+                        }
+                        
+                        this.$forceUpdate();
+                    });
+                }
+
+            });
+
+            // chiamata ajax serieTv popolari
+            axios
+            .get('https://api.themoviedb.org/3/tv/popular', {
+                params: {
+                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                    language: "it-IT",
+                }
+            })
+            .then((element)=> {
+
+                for(let k = 0; k < 5; k++) {
+                    this.popularSeries.push(element.data.results[k])
+                }
+                
+                for (let i = 0; i < this.popularSeries.length; i++) {
+
+                    this.popularSeries[i].castList = [];
+
+                    //chiamata ajax API serieTv popolari cast
+                    axios
+                    .get("https://api.themoviedb.org/3/tv/" + this.popularSeries[i].id + "/credits", {
+                        params: {
+                            api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                            language: "it-IT",
+                        }
+                    })
+                    .then((element)=> {
+
+                        // console.log(element.data.cast.length);
+                        for(let j = 0; j < element.data.cast.length; j++) {
+                            if(this.popularSeries[i].castList.length < 5) {
+                                this.popularSeries[i].castList.push(element.data.cast[j].name);
+                            }
+                        }
+                        
+                        this.$forceUpdate();
+                    });
+                }
+
+            });
+
+            // chiamata ajax generi film
+            axios
+            .get('https://api.themoviedb.org/3/genre/movie/list', {
+                params: {
+                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                    language: "it-IT",
+                }
+            })
+            .then((element)=> {
+
+                this.genresMovies = element.data.genres;
+
+            });
+
+            // chiamata ajax generi serieTv
+            axios
+            .get('https://api.themoviedb.org/3/genre/tv/list', {
+                params: {
+                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                    language: "it-IT",
+                }
+            })
+            .then((element)=> {
+
+                this.genresSeries = element.data.genres;
+
+            });
+
                 
         }
     }

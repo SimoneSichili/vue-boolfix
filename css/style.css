@@ -19,7 +19,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 80px;
+    height: 70px;
     padding: 20px 30px;
     background-color: #040404;
 }
@@ -33,6 +33,10 @@ nav img {
     height: 100%;
 }
 
+nav .small-logo {
+    display: none;
+}
+
 /* /logo */
 
 /* searchbar */
@@ -42,21 +46,17 @@ nav .searchbar  {
     align-items: center;
 }
 
-nav .searchbar label {
-    color: #fff;
-}
-
-nav .searchbar select {
+nav .searchbar .nav-item select {
     padding: 4px 10px;
     margin: 0 10px;
     border: 1px solid black;
     border-radius: 5px;
 }
 
-nav .searchbar input {
+nav .searchbar .nav-item input {
     padding: 5px 10px;
     margin-right: 10px;
-    margin-left: 20px;
+    margin-left: 30px;
     border: 1px solid black;
     border-radius: 5px;
 }
@@ -79,9 +79,9 @@ nav .searchbar i:hover {
 
 main {
     width: 100%;
-    height: calc(100% - 80px);
+    height: calc(100% - 70px);
     padding: 30px;
-    background-color: #191919;
+    background-color: #141414;
     overflow-y: auto;
 }
 
@@ -96,17 +96,17 @@ main {
 /* cards */
 
 .movies-title {
-    width: 400px;
+    max-width: 400px;
     margin: 0 auto;
     margin-bottom: 20px;
     padding-bottom: 5px;
     text-align: center;
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid #DB202C;
     color: #fff;
 }
 
 .series-title {
-    width: 400px;
+    max-width: 400px;
     margin: 0 auto;
     margin-top: 40px;
     margin-bottom: 20px;
@@ -121,7 +121,9 @@ main {
     width: 342px;
     margin: 0 10px;
     margin-bottom: 20px;
-    border: 1px solid #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    /* border: 1px solid #fff; */
     cursor: pointer;
 }
 
@@ -166,7 +168,6 @@ main {
 .card .overlay .flag {
     width: 20px;
     margin-left: 5px;
-    vertical-align: middle;
 }
 
 .card .overlay .overview {
@@ -198,3 +199,59 @@ main {
 /* /warning message */
 
 /* /MAIN */
+
+
+@media screen and (max-width: 992px) {
+
+    nav .big-logo {
+        display: none;
+    }
+
+    nav .small-logo {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 767px) {
+
+    nav {
+        height: 150px;
+    }
+
+    main {
+        height: calc(100% - 150px);
+    }
+
+    nav .searchbar  {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: flex-end;
+    }
+    
+    nav .searchbar .nav-item input {
+        margin-right: 10px;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    nav .searchbar .nav-item select {
+        margin: 0;
+        margin-bottom: 10px;
+    }
+
+    nav .searchbar .nav-item:nth-child(1) select {
+        margin: 0;
+        margin-bottom: 0;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .movies-title,
+    .series-title {
+        font-size: 20px;
+    }
+
+}
+
