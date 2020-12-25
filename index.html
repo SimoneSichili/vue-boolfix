@@ -29,7 +29,7 @@
                     <select id="genre-movies-list" v-model="selectedMovieGenre">
                         <option value="selectedMovie" disabled selected>Seleziona Genere Film</option>
                         <option value="all">Tutti</option>
-                        <option v-for="genre in genresMovies" :value="genre.id">{{ genre.name }}</option>
+                        <option v-for="genre in genresMovies" :value="genre.name">{{ genre.name }}</option>
                     </select>
                 </div>                    
 
@@ -38,7 +38,7 @@
                     <select id="genre-series-list" v-model="selectedSerieGenre">
                         <option value="selectedSerie" disabled selected>Seleziona Genere SerieTV</option>
                         <option value="all" selected>Tutti</option>
-                        <option v-for="genre in genresSeries" :value="genre.id">{{ genre.name }}</option>
+                        <option v-for="genre in genresSeries" :value="genre.name">{{ genre.name }}</option>
                     </select>
                 </div>    
 
@@ -76,6 +76,11 @@
                                 <i v-for="number in getVote(movie.vote_average)" class="fas fa-star"></i>
                                 <i v-for="number in 5 - getVote(movie.vote_average)" class="far fa-star"></i>
                             </span>
+                        </div>
+
+                        <!-- generi -->
+                        <div class="title">Generi: 
+                            <span class="description">{{ movie.genre_ids.join(", ") }}</span>
                         </div>
 
                         <!-- attori -->
@@ -118,6 +123,11 @@
                             </span>
                         </div>
 
+                        <!-- generi -->
+                        <div class="title">Generi: 
+                            <span class="description">{{ serie.genre_ids.join(", ") }}</span>
+                        </div>
+
                         <!-- attori -->
                         <div v-if="serie.castList.length > 0" class="title">Attori: 
                             <span class="description">{{ serie.castList.join(", ") }}</span>
@@ -156,6 +166,11 @@
                                 <i v-for="number in getVote(movie.vote_average)" class="fas fa-star"></i>
                                 <i v-for="number in 5 - getVote(movie.vote_average)" class="far fa-star"></i>
                             </span>
+                        </div>
+
+                        <!-- generi -->
+                        <div class="title">Generi: 
+                            <span class="description">{{ movie.genre_ids.join(", ") }}</span>
                         </div>
 
                         <!-- attori -->
@@ -197,6 +212,11 @@
                                 <i v-for="number in getVote(serie.vote_average)" class="fas fa-star"></i>
                                 <i v-for="number in 5 - getVote(serie.vote_average)" class="far fa-star"></i>
                             </span>
+                        </div>
+
+                        <!-- generi -->
+                        <div class="title">Generi: 
+                            <span class="description">{{ serie.genre_ids.join(", ") }}</span>
                         </div>
 
                         <!-- attori -->

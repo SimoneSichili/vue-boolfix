@@ -1,8 +1,3 @@
-// Cliccando il  bottone, si devono cercare sull’API 
-// tutti i film che contengono ciò che ha scritto l’utente.
-// Sostituiamo quindi le nostre schede con quelle generate dalla chiamata,
-// tralasciando per ora le stelline.
-
 var app = new Vue(
     {
         el: '#root',
@@ -73,7 +68,21 @@ var app = new Vue(
                             
                             this.$forceUpdate();
                         });
-                    }
+
+                        //assegnazione generi movie
+                        for(let j = 0; j < this.movies[i].genre_ids.length; j++) {
+                            
+                            for(let k = 0; k < this.genresMovies.length; k++) {
+                                if(this.movies[i].genre_ids[j] == this.genresMovies[k].id) {
+                                    this.movies[i].genre_ids[j] = this.genresMovies[k].name;
+                                }
+                            }
+                            // console.log("Film corrente:", this.movies[i].title);
+                            // console.log("Generi del film corrente", this.movies[i].genre_ids[j]);
+                        }
+                        this.$forceUpdate();
+
+                    } 
 
                 });
             },
@@ -116,6 +125,19 @@ var app = new Vue(
                             
                             this.$forceUpdate();
                         });
+
+                        //assegnazione generi serie tv
+                        for(let j = 0; j < this.series[i].genre_ids.length; j++) {
+                            
+                            for(let k = 0; k < this.genresSeries.length; k++) {
+                                if(this.series[i].genre_ids[j] == this.genresSeries[k].id) {
+                                    this.series[i].genre_ids[j] = this.genresSeries[k].name;
+                                }
+                            }
+                            // console.log("SerieTV corrente:", this.series[i].name);
+                            // console.log("Generi del SerieTV corrente", this.series[i].genre_ids[j]);
+                        }
+                        this.$forceUpdate();
                     }
 
                 });
@@ -135,6 +157,35 @@ var app = new Vue(
             },
         }, 
         mounted: function() {
+
+            // chiamata ajax generi film
+            axios
+            .get('https://api.themoviedb.org/3/genre/movie/list', {
+                params: {
+                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                    language: "it-IT",
+                }
+            })
+            .then((element)=> {
+
+                this.genresMovies = element.data.genres;
+
+            });
+            
+
+            // chiamata ajax generi serieTv
+            axios
+            .get('https://api.themoviedb.org/3/genre/tv/list', {
+                params: {
+                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
+                    language: "it-IT",
+                }
+            })
+            .then((element)=> {
+
+                this.genresSeries = element.data.genres;
+
+            });
 
             // chiamata ajax film popolari
             axios
@@ -173,6 +224,19 @@ var app = new Vue(
                         
                         this.$forceUpdate();
                     });
+
+                    //assegnazione generi movie poplari
+                    for(let j = 0; j < this.popularMovies[i].genre_ids.length; j++) {
+                            
+                        for(let k = 0; k < this.genresMovies.length; k++) {
+                            if(this.popularMovies[i].genre_ids[j] == this.genresMovies[k].id) {
+                                this.popularMovies[i].genre_ids[j] = this.genresMovies[k].name;
+                            }
+                        }
+                        // console.log("Film corrente:", this.movies[i].title);
+                        // console.log("Generi del film corrente", this.movies[i].genre_ids[j]);
+                    }
+                    this.$forceUpdate();
                 }
 
             });
@@ -214,39 +278,22 @@ var app = new Vue(
                         
                         this.$forceUpdate();
                     });
+
+                    //assegnazione generi serie tv popolari
+                    for(let j = 0; j < this.popularSeries[i].genre_ids.length; j++) {
+
+                        for(let k = 0; k < this.genresSeries.length; k++) {         
+                            if(this.popularSeries[i].genre_ids[j] == this.genresSeries[k].id) {
+                                this.popularSeries[i].genre_ids[j] = this.genresSeries[k].name;
+                            }
+                        }
+
+                    }
+                    this.$forceUpdate();
                 }
 
             });
 
-            // chiamata ajax generi film
-            axios
-            .get('https://api.themoviedb.org/3/genre/movie/list', {
-                params: {
-                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
-                    language: "it-IT",
-                }
-            })
-            .then((element)=> {
-
-                this.genresMovies = element.data.genres;
-
-            });
-
-            // chiamata ajax generi serieTv
-            axios
-            .get('https://api.themoviedb.org/3/genre/tv/list', {
-                params: {
-                    api_key: "b2f2dc9b456519ffb2d7406a9523fda2",
-                    language: "it-IT",
-                }
-            })
-            .then((element)=> {
-
-                this.genresSeries = element.data.genres;
-
-            });
-
-                
         }
     }
 );

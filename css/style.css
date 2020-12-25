@@ -72,7 +72,6 @@ nav .searchbar i:hover {
 
 /* /searchbar */
 
-
 /* /NAV */
 
 /* MAIN */
@@ -145,17 +144,6 @@ main {
     opacity: 0;
 }
 
-/* .card .overlay:after{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    height:50px;
-    display:block;
-    background-color:inherit;
-  } */
-
 .card .overlay .title {
     font-weight: 700;
     margin-bottom: 5px;
@@ -168,6 +156,7 @@ main {
 .card .overlay .flag {
     width: 20px;
     margin-left: 5px;
+    vertical-align: middle;
 }
 
 .card .overlay .overview {
