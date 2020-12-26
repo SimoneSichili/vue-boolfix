@@ -151,6 +151,8 @@ var app = new Vue(
                     this.getSeries();
                     
                     this.searchQuery = "";
+                    this.selectedMovieGenre = "selectedMovie";
+                    this.selectedSerieGenre = "selectedSerie";
                     this.renderMessage = true;
                 }
                 
