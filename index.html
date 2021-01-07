@@ -65,12 +65,12 @@
                         <div class="title">Lingua Originale: 
                             <span class="description">
                                 <img v-if="flags.includes(movie.original_language)" :src="'img/' + movie.original_language + '.svg'" alt="Bandiera" class="flag">
-                                <span v-if="flags.includes(movie.original_language) == false" class="description">{{ movie.original_language}}</span>
+                                <span v-else class="description">{{ movie.original_language}}</span>
                             </span>
                         </div>
 
                         <!-- voto con stelle -->
-                        <div class="title stars">
+                        <div class="title">
                             Voto: 
                             <span>
                                 <i v-for="number in getVote(movie.vote_average)" class="fas fa-star"></i>
@@ -103,19 +103,19 @@
                 <div class="card" v-for="(serie, index) in popularSeries">
                     <img class="poster" :src="getImages(serie)" :alt="serie.title">
                     <div class="overlay">
-                        <div class="title">Titolo: <span class="description">{{ serie.title }}</span></div>
-                        <div v-if="serie.original_name != serie.name" class="title">Titolo Originale: <span class="description">{{ serie.original_title }}</span></div>
+                        <div class="title">Titolo: <span class="description">{{ serie.name }}</span></div>
+                        <div v-if="serie.original_name != serie.name" class="title">Titolo Originale: <span class="description">{{ serie.original_name }}</span></div>
 
                         <!-- bandiere lingua -->
                         <div class="title">Lingua Originale: 
                             <span class="description">
                                 <img v-if="flags.includes(serie.original_language)" :src="'img/' + serie.original_language + '.svg'" alt="Bandiera" class="flag">
-                                <span v-if="flags.includes(serie.original_language) == false" class="description">{{ serie.original_language}}</span>
+                                <span v-else class="description">{{ serie.original_language}}</span>
                             </span>
                         </div>
 
                         <!-- voto con stelle -->
-                        <div class="title stars">
+                        <div class="title">
                             Voto: 
                             <span>
                                 <i v-for="number in getVote(serie.vote_average)" class="fas fa-star"></i>
@@ -155,12 +155,12 @@
                         <div class="title">Lingua Originale: 
                             <span class="description">
                                 <img v-if="flags.includes(movie.original_language)" :src="'img/' + movie.original_language + '.svg'" alt="Bandiera" class="flag">
-                                <span v-if="flags.includes(movie.original_language) == false" class="description">{{ movie.original_language}}</span>
+                                <span v-else class="description">{{ movie.original_language}}</span>
                             </span>
                         </div>
 
                         <!-- voto con stelle -->
-                        <div class="title stars">
+                        <div class="title">
                             Voto: 
                             <span>
                                 <i v-for="number in getVote(movie.vote_average)" class="fas fa-star"></i>
@@ -194,19 +194,19 @@
                 <div v-if="serie.genre_ids.includes(selectedSerieGenre) || selectedSerieGenre == 'all' || selectedSerieGenre == 'selectedSerie'" class="card" v-for="serie in series">
                     <img class="poster" :src="getImages(serie)" :alt="serie.title">
                     <div class="overlay">
-                        <div class="title">Titolo: <span class="description">{{ serie.title }}</span></div>
-                        <div v-if="serie.original_name != serie.name" class="title">Titolo Originale: <span class="description">{{ serie.original_title }}</span></div>
+                        <div class="title">Titolo: <span class="description">{{ serie.name }}</span></div>
+                        <div v-if="serie.original_name != serie.name" class="title">Titolo Originale: <span class="description">{{ serie.original_name }}</span></div>
 
                         <!-- bandiere lingua -->
                         <div class="title">Lingua Originale: 
                             <span class="description">
                                 <img v-if="flags.includes(serie.original_language)" :src="'img/' + serie.original_language + '.svg'" alt="Bandiera" class="flag">
-                                <span v-if="flags.includes(serie.original_language) == false" class="description">{{ serie.original_language}}</span>
+                                <span v-else class="description">{{ serie.original_language}}</span>
                             </span>
                         </div>
 
                         <!-- voto con stelle -->
-                        <div class="title stars">
+                        <div class="title">
                             Voto: 
                             <span>
                                 <i v-for="number in getVote(serie.vote_average)" class="fas fa-star"></i>
